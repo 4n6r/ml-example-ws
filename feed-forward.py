@@ -20,15 +20,17 @@ class NeuralNetwork(nn.Module):
      return out
   
 def train(model, device, train_loader, optimizer, epoch, log_interval):
+    criterion = nn.CrossEntropyLoss()
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
         images = data.reshape(-1,28*28)
         images, target = images.to(device), target.to(device)
         optimizer.zero_grad()
         output = model(images)
-        loss = F.nll_loss(output, target)
+        loss = criterion(output, target)
         loss.backward()
         optimizer.step()
+        optimizer.zero_grad()
         if batch_idx % log_interval == 0:
             print(
                 "Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}".format(
@@ -76,11 +78,11 @@ def main():
   # define input size
   input_size = 784
   # define hidden size
-  hidden_size = 100
+  hidden_size = 250
   # define epochs
   num_epoch = 10
   # define learning rate
-  learning_rate = 0.01
+  learning_rate = 0.001
   log_interval= 10
 
   # define device on which the model should run

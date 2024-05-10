@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 
 data/
+mnist_cnn.pt
+mnist_cnn.pth
+model_store/
